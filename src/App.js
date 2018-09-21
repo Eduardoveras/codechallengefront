@@ -15,7 +15,7 @@ class App extends Component {
             host = 'http://localhost:3000';
         }
         else {
-            host= 'http://codechallengebackend.herokuapp.com'
+            host= 'https://codechallengebackend.herokuapp.com'
         }
         this.state = {
             value: '',
