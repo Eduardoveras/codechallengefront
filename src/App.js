@@ -9,11 +9,19 @@ import parse from 'parse-link-header';
 class App extends Component {
     constructor(props) {
         super(props);
+        let host=''
+        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+        {
+            host = 'http://localhost:3000';
+        }
+        else {
+            host= 'http://codechallengebackend.herokuapp.com'
+        }
         this.state = {
             value: '',
+            host: host,
             possible_values: ['Loading...'],
             tweets: null,
-            base_url: 'http://localhost:3000/social_media_posts',
             current_topic_id: null,
             current_page:1,
             parsed_link_header: {
@@ -31,7 +39,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:3000/topics`)
+        axios.get(this.state.host+`/topics`)
             .then(res => {
                 console.log(res.data);
                 this.setState({possible_values: res.data});
@@ -64,8 +72,8 @@ class App extends Component {
     }
 
     getTweetsForId(id) {
-        console.log(`${this.state.base_url}?topic_id=${id}&page=${this.state.current_page}`);
-        axios.get(`${this.state.base_url}?topic_id=${id}&page=${this.state.current_page}`)
+        console.log(`${this.state.host}/social_media_posts?topic_id=${id}&page=${this.state.current_page}`);
+        axios.get(`${this.state.host}/social_media_posts?topic_id=${id}&page=${this.state.current_page}`)
             .then(res => {
                 this.setState({
                     tweets: res.data,
